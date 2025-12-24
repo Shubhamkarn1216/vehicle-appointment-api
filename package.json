@@ -1,0 +1,13 @@
+{
+  "name": "vehicle-appointment-api",
+  "version": "1.0.0",
+  "description": "Vehicle appointment management API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "uuid": "^9.0.1"
+  }
+}
