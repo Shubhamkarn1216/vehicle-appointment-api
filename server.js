@@ -75,6 +75,43 @@ app.post("/vehicle/appointments", (req, res) => {
   });
 });
 
+// --------------------------------------
+// API 3: Reschedule appointment
+// --------------------------------------
+app.put("/vehicle/appointments/:id", (req, res) => {
+  const { id } = req.params;
+  const { date } = req.body;
+
+  // Step 1: Validate input
+  if (!date) {
+    return res.status(400).json({
+      code: "DATE_REQUIRED",
+      message: "New appointment date is required"
+    });
+  }
+
+  // Step 2: Find appointment
+  const appointment = APPOINTMENTS.find(
+    a => a.id === id
+  );
+
+  if (!appointment) {
+    return res.status(404).json({
+      code: "APPOINTMENT_NOT_FOUND"
+    });
+  }
+
+  // Step 3: Update date
+  appointment.date = date;
+  appointment.updatedAt = new Date().toISOString();
+
+  // Step 4: Return updated record
+  res.json({
+    code: "APPOINTMENT_RESCHEDULED",
+    appointment
+  });
+});
+
 
 // -----------------------------
 const PORT = process.env.PORT || 3000;
