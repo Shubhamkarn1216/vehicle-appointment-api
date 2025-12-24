@@ -40,6 +40,41 @@ app.get("/vehicle/appointments", (req, res) => {
   });
 });
 
+// --------------------------------------
+// API 2: Book new appointment
+// --------------------------------------
+app.post("/vehicle/appointments", (req, res) => {
+  const { plate, date, service } = req.body;
+
+  // Step 1: Validate input
+  if (!plate || !date || !service) {
+    return res.status(400).json({
+      code: "MISSING_FIELDS",
+      message: "plate, date, and service are required"
+    });
+  }
+
+  // Step 2: Create appointment object
+  const appointment = {
+    id: uuidv4(),
+    plate,
+    date,
+    service,
+    status: "BOOKED",
+    technician: null,
+    createdAt: new Date().toISOString()
+  };
+
+  // Step 3: Save appointment
+  APPOINTMENTS.push(appointment);
+
+  // Step 4: Return response
+  res.status(201).json({
+    code: "APPOINTMENT_BOOKED",
+    appointment
+  });
+});
+
 
 // -----------------------------
 const PORT = process.env.PORT || 3000;
