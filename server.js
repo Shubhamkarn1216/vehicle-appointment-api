@@ -138,6 +138,33 @@ app.delete("/vehicle/appointments/:id", (req, res) => {
   });
 });
 
+// --------------------------------------
+// API 5: Get vehicle / technician status
+// --------------------------------------
+app.get("/vehicle/status/:appointment_id", (req, res) => {
+  const { appointment_id } = req.params;
+
+  // Step 1: Find appointment
+  const appointment = APPOINTMENTS.find(
+    a => a.id === appointment_id
+  );
+
+  if (!appointment) {
+    return res.status(404).json({
+      code: "APPOINTMENT_NOT_FOUND"
+    });
+  }
+
+  // Step 2: Return status
+  res.json({
+    appointment_id: appointment.id,
+    plate: appointment.plate,
+    status: appointment.status,
+    technician: appointment.technician
+      ? appointment.technician
+      : "NOT_ASSIGNED"
+  });
+});
 
 // -----------------------------
 const PORT = process.env.PORT || 3000;
