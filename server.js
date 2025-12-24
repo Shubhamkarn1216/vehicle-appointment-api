@@ -13,7 +13,6 @@ const APPOINTMENTS = [];
 app.get("/health", (req, res) => {
   res.json({ status: "UP" });
 });
-
 // --------------------------------------
 // API 1: Get appointments by plate
 // --------------------------------------
