@@ -112,6 +112,32 @@ app.put("/vehicle/appointments/:id", (req, res) => {
   });
 });
 
+// --------------------------------------
+// API 4: Cancel appointment
+// --------------------------------------
+app.delete("/vehicle/appointments/:id", (req, res) => {
+  const { id } = req.params;
+
+  // Step 1: Find appointment index
+  const index = APPOINTMENTS.findIndex(
+    a => a.id === id
+  );
+
+  if (index === -1) {
+    return res.status(404).json({
+      code: "APPOINTMENT_NOT_FOUND"
+    });
+  }
+
+  // Step 2: Remove appointment
+  APPOINTMENTS.splice(index, 1);
+
+  // Step 3: Return confirmation
+  res.json({
+    code: "APPOINTMENT_CANCELLED"
+  });
+});
+
 
 // -----------------------------
 const PORT = process.env.PORT || 3000;
